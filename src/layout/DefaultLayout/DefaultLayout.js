@@ -50,9 +50,6 @@ function DefaultLayout({ children }) {
                         />
                         <BiSearch color="#C7C7C7" size={16} onClick={ClickSearch} />
                     </div>
-                    <div className={cx('absolute z-10 text-red-500 text-sm ml-40  w-full mt-10', search)}>
-                        Tên đăng nhập hoặc mật khẩu không đúng
-                    </div>
                 </div>
                 <div className={cx('flex flex-row w-4/12  justify-between items-center ')}>
                     <div

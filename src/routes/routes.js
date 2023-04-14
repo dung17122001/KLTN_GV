@@ -8,34 +8,29 @@ import DangKyHocPhan from '../pages/DangKyHocPhan';
 import SignIn from '../pages/Login';
 import ChuongTrinhKhung from '../pages/ChuongTrinhKhung';
 import routeConfig from '../configRoutes';
-import ThongTinSinhVien from '../pages/ThongTinSinhVien';
+import ThongTinGiangVien from '../pages/ThongTinGiangVien';
 import LichTheoTienDo from '../pages/LichTheoTienDo';
+import DanhSachLopHP from '../pages/DanhSachLopHP/danhSachLopHP';
 //public
 const publicRoutes = [
     {
         path: routeConfig.routeConfig.home,
         component: Home,
     },
+
     {
-        path: routeConfig.routeConfig.ketQuaHocTap,
-        component: KetQuaHocTap,
+        path: routeConfig.routeConfig.danhSachLopHP,
+        component: DanhSachLopHP,
     },
     {
         path: routeConfig.routeConfig.lichTheoTuan,
         component: LichTheoTuan,
     },
     {
-        path: routeConfig.routeConfig.thongTinSinhVien,
-        component: ThongTinSinhVien,
+        path: routeConfig.routeConfig.thongTinGiangVien,
+        component: ThongTinGiangVien,
     },
-    {
-        path: routeConfig.routeConfig.dangKyHP,
-        component: DangKyHocPhan,
-    },
-    {
-        path: routeConfig.routeConfig.ChuongTrinhKhung,
-        component: ChuongTrinhKhung,
-    },
+
     {
         path: routeConfig.routeConfig.lichTheoTienDo,
         component: LichTheoTienDo,
