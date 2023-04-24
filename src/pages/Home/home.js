@@ -6,10 +6,19 @@ import ItemMenuHome from '../../components/ItemMenuHome';
 import { useState } from 'react';
 import config from '../../configRoutes';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAxiosJWT } from '~/utils/httpConfigRefreshToken';
 
 import style from './home.scss';
 function Home() {
     const cx = classNames.bind(style);
+
+    const dispatch = useDispatch();
+    const userLoginData = useSelector((state) => state.persistedReducer.auth.currentUser);
+    const userLogin = useSelector((state) => state.persistedReducer.signIn.userLogin);
+    var accessToken = userLoginData.accessToken;
+    var axiosJWT = getAxiosJWT(dispatch, userLoginData);
+
     const options = ['HK1 (2021-2022)', 'HK1 (2021-2022)', 'HK1 (2021-2022)'];
     const [selectedOption, setSelectedOption] = useState(options[0]);
     const navigate = useNavigate();
@@ -20,9 +29,17 @@ function Home() {
         navigate(config.routeConfig.danhSachLopHP);
     };
 
+    function convertDateFormat(dateString) {
+        let date = new Date(dateString);
+        let day = date.getDate().toString().padStart(2, '0');
+        let month = (date.getMonth() + 1).toString().padStart(2, '0');
+        let year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
     return (
         <>
-            <div className={cx('flex w-full h-full justify-start bg-slate-300')}>
+            <div className={cx('flex w-full h-screen justify-start bg-gray-100')}>
                 <div className="w-1/12 "></div>
                 <div className=" flex flex-col w-10/12 h-full">
                     <div className=" flex flex-row">
@@ -39,8 +56,8 @@ function Home() {
                                         <div className="w-1/3 flex flex-col items-center mt-2 ">
                                             <div className="w-28 h-28  rounded-full border border-sv-blue-4">
                                                 <img
-                                                    src={logo_iuh}
-                                                    alt="qrcode"
+                                                    src={(!!userLogin && userLogin?.linkAnh) || logo_iuh}
+                                                    alt="avatar"
                                                     className={cx('h-28 w-28 rounded-full')}
                                                 />
                                             </div>
@@ -56,38 +73,42 @@ function Home() {
                                         <div className="w-2/3 mt-4">
                                             <div className="flex flex-row text-xs">
                                                 <p className="mr-2 text-sv-text-1 ">MSGV:</p>
-                                                <p className="text-sv-text-2 font-bold"> 19496481</p>
+                                                <p className="text-sv-text-2 font-bold">{userLogin?.maNhanVien}</p>
                                             </div>
                                             <div className="flex flex-row text-xs mt-4 ">
                                                 <p className="mr-2  w-auto text-sv-text-1 ">Họ tên:</p>
-                                                <p className="text-sv-text-2 font-bold">Nguyễn Tuấn Thanh</p>
+                                                <p className="text-sv-text-2 font-bold">{userLogin?.tenNhanVien}</p>
                                             </div>
                                             <div className="flex flex-row text-xs mt-4">
                                                 <p className="mr-2 text-sv-text-1 ">Giới tính:</p>
-                                                <p className="text-sv-text-2 font-bold">Nam</p>
+                                                <p className="text-sv-text-2 font-bold">
+                                                    {userLogin?.maNhanVien === false ? 'Nam' : 'Nữ'}
+                                                </p>
                                             </div>
                                             <div className="flex flex-row text-xs mt-4">
                                                 <p className="mr-2 text-sv-text-1 ">Ngày sinh:</p>
-                                                <p className="text-sv-text-2 font-bold">08/12/2001</p>
+                                                <p className="text-sv-text-2 font-bold">
+                                                    {convertDateFormat(userLogin?.ngaySinh)}
+                                                </p>
                                             </div>
                                             <div className="flex flex-row text-xs mt-4">
                                                 <p className="mr-2 text-sv-text-1 ">Nơi sinh:</p>
-                                                <p className="text-sv-text-2 font-bold">Vĩnh Long</p>
+                                                <p className="text-sv-text-2 font-bold">{userLogin?.noiSinh}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="w-1/3 ">
                                         <div className="flex flex-row text-xs mt-4">
                                             <p className="mr-2 text-sv-text-1 ">Chức vụ:</p>
-                                            <p className="text-sv-text-2 font-bold">Giảng viên</p>
+                                            <p className="text-sv-text-2 font-bold">{userLogin?.chucVu.tenChucVu}</p>
                                         </div>
                                         <div className="flex flex-row text-xs mt-4">
                                             <p className="mr-2 text-sv-text-1 ">Học vị:</p>
-                                            <p className="text-sv-text-2 font-bold">Tiến sĩ</p>
+                                            <p className="text-sv-text-2 font-bold">Thiếu</p>
                                         </div>
                                         <div className="flex flex-row text-xs mt-4">
                                             <p className="mr-2 text-sv-text-1 ">Khoa:</p>
-                                            <p className="text-sv-text-2 font-bold">Công nghệ thông tin</p>
+                                            <p className="text-sv-text-2 font-bold">{userLogin?.khoa.tenKhoa}</p>
                                         </div>
                                     </div>
                                 </div>

@@ -1,19 +1,27 @@
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import mot from '../../images/1.jpg';
 import hai from '../../images/2.jpg';
 
 import Button from '../../components/Button';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import config from '../../configRoutes';
 import 'react-slideshow-image/dist/styles.css';
 import { Slide } from 'react-slideshow-image';
 import styles from '../Login/login.css';
+// import { loginUser, findBanAccount } from '~/service/authService';
+import { loginUser, findBanAccount } from '../../services/authService';
 
 const cx = classNames.bind(styles);
+
 function Login() {
     const navigate = useNavigate();
+    const [userName, setUserName] = useState('');
+    const [password, setPassWord] = useState('');
+    const dispatch = useDispatch();
+
     const spanStyle = {
         padding: '20px',
 
@@ -40,7 +48,15 @@ function Login() {
     ];
 
     const handleLogin = async () => {
-        navigate(config.routeConfig.home);
+        let user = { username: userName.trim(), password: password };
+
+        var login = await loginUser(user, dispatch, navigate);
+
+        if (login === false) {
+            alert('Mã nhân viên hoặc mật khẩu sai');
+            return;
+        } else navigate(config.routeConfig.home);
+        //navigate(config.routeConfig.home);
     };
     return (
         <>
@@ -61,7 +77,7 @@ function Login() {
                         <div className="h-5/6 w-5/6 justify-center items-center rounded-xl">
                             <div className="mt-10 flex justify-center items-center">
                                 <b className="text-blue-400 uppercase text-2xl solid text-center">
-                                    Cổng thông tin sinh viên
+                                    Cổng thông tin giảng viên
                                 </b>
                             </div>
                             <div className="text-blue-700 flex justify-center mt-4 uppercase text-center">
@@ -75,7 +91,9 @@ function Login() {
                                         className={cx(
                                             'block p-2 pl-4 caret-sv-blue-4 text-sm w-full rounded-sv-login-input bg-transparent border border-sv-blue-4 outline-none placeholder:text-sv-placeholder placeholder:italic ',
                                         )}
-                                        placeholder="Nhập mã sinh viên"
+                                        value={userName}
+                                        onChange={(e) => setUserName(e.target.value)}
+                                        placeholder="Nhập mã giảng viên"
                                     />
                                 </div>
                                 <div className="flex justify-center p-7">
@@ -84,13 +102,15 @@ function Login() {
                                         className={cx(
                                             'block p-2 pl-4 caret-sv-blue-4 text-sm w-full rounded-sv-login-input bg-transparent border border-sv-blue-4 outline-none placeholder:text-sv-placeholder placeholder:italic ',
                                         )}
+                                        value={password}
+                                        onChange={(e) => setPassWord(e.target.value)}
                                         placeholder="Nhập mật khẩu"
                                     />
                                 </div>
                                 <div className=" w-full h-24 p-7">
                                     <Button
                                         className={cx(
-                                            'w-56 h-full  ',
+                                            'w-full h-full  ',
                                             'border border-opacity-100 border-sv-blue-4 outline-none text-sv-blue-4',
                                             'bg-sv-blue-3 justify-center ',
                                         )}
