@@ -61,9 +61,15 @@ function DanhSachLopHP() {
 
     const handleSelectHK = async (e) => {
         setSelectedHK(e.target.value);
-        let resultLHP = await getLHPCuaGVTheoMaHK(currNhanVien.maNhanVien, e.target.value, accessToken, axiosJWT);
+        let resultLHP = await getLHPCuaGVTheoMaHK(currNhanVien?.maNhanVien, e.target.value, accessToken, axiosJWT);
+        //console.log(resultLHP);
         setListLHP(resultLHP);
-        let resultBangDiem = await getThongTinSVByMaLHP(e.target.value, currNhanVien.maNhanVien, accessToken, axiosJWT);
+        let resultBangDiem = await getThongTinSVByMaLHP(
+            e.target.value,
+            currNhanVien?.maNhanVien,
+            accessToken,
+            axiosJWT,
+        );
         //console.log(resultBangDiem);
         if (!!resultBangDiem) setListDiemLHP(resultBangDiem);
     };
