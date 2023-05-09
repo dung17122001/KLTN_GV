@@ -865,6 +865,7 @@ function DanhSachLopHP() {
                                     value={selectedHK}
                                     onChange={handleSelectHK}
                                 >
+                                    <option value="">Học kỳ</option>
                                     {listHocKy?.map((option) => (
                                         <option key={option.maHocKy} value={option.maHocKy}>
                                             {option.tenHocKy}

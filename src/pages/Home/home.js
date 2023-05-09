@@ -3,11 +3,13 @@ import logo_iuh from './../../images/logo_iuh.png';
 import iuh from './../../images/iuh.jpg';
 import { FaCalendarAlt, FaCalendarCheck, FaRegChartBar, FaAlignJustify } from 'react-icons/fa';
 import ItemMenuHome from '../../components/ItemMenuHome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import config from '../../configRoutes';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAxiosJWT } from '~/utils/httpConfigRefreshToken';
+import { getTatCaHocKy } from '~/services/hocKyService';
+import { getLHPCuaGVTheoMaHK } from '~/services/lopHocPhanService';
 
 import style from './home.scss';
 function Home() {
@@ -18,13 +20,16 @@ function Home() {
     const userLogin = useSelector((state) => state.persistedReducer.signIn.userLogin);
     var accessToken = userLoginData.accessToken;
     var axiosJWT = getAxiosJWT(dispatch, userLoginData);
-
-    const options = ['HK1 (2021-2022)', 'HK1 (2021-2022)', 'HK1 (2021-2022)'];
-    const [selectedOption, setSelectedOption] = useState(options[0]);
+    const [listHK, setListHK] = useState([]);
+    const [selectedHK, setSelectedHK] = useState('');
+    const [listLHP, setListLHP] = useState();
     const navigate = useNavigate();
-    function handleChange(event) {
-        setSelectedOption(event.target.value);
-    }
+    const handleChange = async (e) => {
+        setSelectedHK(e.target.value);
+        let resultLHP = await getLHPCuaGVTheoMaHK(userLogin?.maNhanVien, e.target.value, accessToken, axiosJWT);
+        //console.log(resultLHP);
+        setListLHP(resultLHP);
+    };
     const danhSachLopHP = async () => {
         navigate(config.routeConfig.danhSachLopHP);
     };
@@ -36,6 +41,19 @@ function Home() {
         let year = date.getFullYear();
         return `${day}/${month}/${year}`;
     }
+
+    useEffect(() => {
+        const getHocKy = async () => {
+            try {
+                var list = await getTatCaHocKy(accessToken, axiosJWT);
+                //console.log(list);
+                setListHK(list);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getHocKy();
+    }, []);
 
     return (
         <>
@@ -102,10 +120,10 @@ function Home() {
                                             <p className="mr-2 text-sv-text-1 ">Chức vụ:</p>
                                             <p className="text-sv-text-2 font-bold">{userLogin?.chucVu.tenChucVu}</p>
                                         </div>
-                                        <div className="flex flex-row text-xs mt-4">
+                                        {/* <div className="flex flex-row text-xs mt-4">
                                             <p className="mr-2 text-sv-text-1 ">Học vị:</p>
                                             <p className="text-sv-text-2 font-bold">Thiếu</p>
-                                        </div>
+                                        </div> */}
                                         <div className="flex flex-row text-xs mt-4">
                                             <p className="mr-2 text-sv-text-1 ">Khoa:</p>
                                             <p className="text-sv-text-2 font-bold">{userLogin?.khoa.tenKhoa}</p>
@@ -233,12 +251,13 @@ function Home() {
                                         <div className="flex items-center border  border-sv-blue-4 rounded">
                                             <select
                                                 className="text-sv-text-2 border  border-sv-blue-4 "
-                                                value={selectedOption}
+                                                value={selectedHK}
                                                 onChange={handleChange}
                                             >
-                                                {options.map((option) => (
-                                                    <option key={option} value={option}>
-                                                        {option}
+                                                <option value="">Học kỳ</option>
+                                                {listHK.map((item) => (
+                                                    <option key={item.maHocKy} value={item.maHocKy}>
+                                                        {item.tenHocKy}
                                                     </option>
                                                 ))}
                                             </select>
@@ -248,24 +267,20 @@ function Home() {
                                         <div>Môn học/Học phần</div>
                                         <div>Tín chỉ</div>
                                     </div>
-                                    <div className="w-full flex flex-row border-t-2 text-sm mt-3 text-sv-text-1">
-                                        <div className="w-10/12">
-                                            <div className="text-sv-blue-4 font-bold">1213456</div>
-                                            <div>Lập trình hướng đối tượng</div>
+                                    {listLHP?.map((item) => (
+                                        <div
+                                            className="w-full flex flex-row border-t-2 text-sm mt-3 text-sv-text-1"
+                                            key={item.maLopHocPhan}
+                                        >
+                                            <div className="w-10/12">
+                                                <div className="text-sv-blue-4 font-bold">{item.maLopHocPhan}</div>
+                                                <div>{item.tenLopHocPhan}</div>
+                                            </div>
+                                            <div className="w-2/12 flex justify-center items-center">
+                                                <p>1</p>
+                                            </div>
                                         </div>
-                                        <div className="w-2/12 flex justify-center items-center">
-                                            <p>1</p>
-                                        </div>
-                                    </div>
-                                    <div className="w-full flex flex-row border-t-2 text-sm mt-3 text-sv-text-1">
-                                        <div className="w-10/12">
-                                            <div className="text-sv-blue-4 font-bold">1213456</div>
-                                            <div>Lập trình hướng đối tượng</div>
-                                        </div>
-                                        <div className="w-2/12 flex justify-center items-center">
-                                            <p>1</p>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
