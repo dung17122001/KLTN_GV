@@ -2,7 +2,7 @@ import React from 'react';
 import MenuItem from '../ItemMenu/MenuItem';
 import classNames from 'classnames';
 import style from './menu.scss';
-import { FaHome, FaGraduationCap } from 'react-icons/fa';
+import { FaHome, FaGraduationCap, FaCalendarAlt } from 'react-icons/fa';
 import { SlScreenDesktop } from 'react-icons/sl';
 import { BsFillCalendar2CheckFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
@@ -25,7 +25,34 @@ function Menu() {
                     </div>
                 </div>
             </div>
-            <MenuItem
+            <div className={cx('menu')}>
+                <div className={cx('flex flex-row items-center p-2')}>
+                    <div className="text-xl">
+                        <SlScreenDesktop color="gray" />
+                    </div>
+                    <div
+                        className="ml-2 text-gray-500 hover:cursor-pointer"
+                        onClick={() => navigate(config.routeConfig.thongTinGiangVien)}
+                    >
+                        Thông tin giảng viên
+                    </div>
+                </div>
+            </div>
+            <div className={cx('menu')}>
+                <div className={cx('flex flex-row items-center p-2')}>
+                    <div className="text-xl">
+                        <FaCalendarAlt color="gray" />
+                    </div>
+                    <div
+                        className="ml-2 text-gray-500 hover:cursor-pointer"
+                        onClick={() => navigate(config.routeConfig.lichTheoTuan)}
+                    >
+                        Lịch theo tuần
+                    </div>
+                </div>
+            </div>
+
+            {/* <MenuItem
                 menuItems={[
                     {
                         name: 'Thông tin chung   ',
@@ -36,8 +63,8 @@ function Menu() {
                     },
                 ]}
                 icon={<SlScreenDesktop />}
-            ></MenuItem>
-            <MenuItem
+            ></MenuItem> */}
+            {/* <MenuItem
                 menuItems={[
                     {
                         name: 'Học tập',
@@ -48,8 +75,8 @@ function Menu() {
                     },
                 ]}
                 icon={<FaGraduationCap />}
-            ></MenuItem>
-            <MenuItem
+            ></MenuItem> */}
+            {/* <MenuItem
                 menuItems={[
                     {
                         name: 'Đăng ký học phần',
@@ -60,7 +87,7 @@ function Menu() {
                     },
                 ]}
                 icon={<BsFillCalendar2CheckFill />}
-            ></MenuItem>
+            ></MenuItem> */}
         </>
     );
 }

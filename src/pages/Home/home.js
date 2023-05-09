@@ -12,6 +12,7 @@ import { getTatCaHocKy } from '~/services/hocKyService';
 import { getLHPCuaGVTheoMaHK } from '~/services/lopHocPhanService';
 
 import style from './home.scss';
+import Menu from '../../components/Menu/menu';
 function Home() {
     const cx = classNames.bind(style);
 
@@ -120,10 +121,10 @@ function Home() {
                                             <p className="mr-2 text-sv-text-1 ">Chức vụ:</p>
                                             <p className="text-sv-text-2 font-bold">{userLogin?.chucVu.tenChucVu}</p>
                                         </div>
-                                        {/* <div className="flex flex-row text-xs mt-4">
+                                        <div className="flex flex-row text-xs mt-4">
                                             <p className="mr-2 text-sv-text-1 ">Học vị:</p>
-                                            <p className="text-sv-text-2 font-bold">Thiếu</p>
-                                        </div> */}
+                                            <p className="text-sv-text-2 font-bold">{userLogin?.hocVi}</p>
+                                        </div>
                                         <div className="flex flex-row text-xs mt-4">
                                             <p className="mr-2 text-sv-text-1 ">Khoa:</p>
                                             <p className="text-sv-text-2 font-bold">{userLogin?.khoa.tenKhoa}</p>

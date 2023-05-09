@@ -78,7 +78,7 @@ function ThongTinGiangVien() {
                                     <div className="w-1/2 mt-3 ">
                                         <div className="flex text-sm ml-0 m-4 ">
                                             <p className="mr-2 text-sv-text-1 ">Học vị:</p>
-                                            <p className="text-sv-text-2 font-bold">Thiếu</p>
+                                            <p className="text-sv-text-2 font-bold">{userLogin?.hocVi}</p>
                                         </div>
                                         <div className="flex text-sm ml-0 m-4 ">
                                             <p className="mr-2 text-sv-text-1 ">Khoa:</p>
