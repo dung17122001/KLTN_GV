@@ -24,7 +24,7 @@ function LichTheoTuan() {
     var accessToken = userLoginData?.accessToken;
     var axiosJWT = getAxiosJWT(dispatch, userLoginData);
 
-    const [selectedValue, setSelectedValue] = useState('all');
+    const [selectedValue, setSelectedValue] = useState('Bình thường');
     const [currentDate, setCurrentDate] = useState(moment());
     const [listLich, setListLich] = useState([]);
     const [listLichAll, setListLichAll] = useState([]); //dùng để lọc loại lịch

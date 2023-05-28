@@ -256,7 +256,7 @@ function Home() {
                                                 onChange={handleChange}
                                             >
                                                 <option value="">Học kỳ</option>
-                                                {listHK.map((item) => (
+                                                {listHK?.map((item) => (
                                                     <option key={item.maHocKy} value={item.maHocKy}>
                                                         {item.tenHocKy}
                                                     </option>
